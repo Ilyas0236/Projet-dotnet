@@ -1,0 +1,94 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="d-flex">
+        <!-- SIDEBAR -->
+        <div class="sidebar p-3" style="min-height:100vh; width:260px; background:#0F172A; color:white;">
+            <h3 class="mb-4 text-center">
+                <i class="bi bi-speedometer2"></i> Admin
+            </h3>
+            <nav class="nav flex-column">
+                <a class="nav-link text-white mb-1" asp-area="Admin" asp-controller="AdminDashboard" asp-action="Index">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                <a class="nav-link text-white mb-1" asp-area="Admin" asp-controller="AdminHotels" asp-action="Index">
+                    <i class="bi bi-building"></i> Hôtels
+                </a>
+                <a class="nav-link text-white mb-1" asp-area="Admin" asp-controller="AdminChambres" asp-action="Index">
+                    <i class="bi bi-door-open"></i> Chambres
+                </a>
+                <a class="nav-link text-white mb-1" asp-area="Admin" asp-controller="AdminReservations" asp-action="Index">
+                    <i class="bi bi-calendar-check"></i> Réservations
+                </a>
+                <a class="nav-link text-white mb-1" asp-area="Admin" asp-controller="AdminUtilisateurs" asp-action="Index">
+                    <i class="bi bi-people"></i> Utilisateurs
+                </a>
+                <a class="nav-link text-white mb-1" asp-area="Admin" asp-controller="AdminPaiements" asp-action="Index">
+                    <i class="bi bi-credit-card"></i> Paiements
+                </a>
+                <hr class="bg-light" />
+                <a class="nav-link text-white mb-1" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-house"></i> Retour au site
+                </a>
+                <a class="nav-link text-white mb-1" asp-area="" asp-controller="Auth" asp-action="Logout">
+                    <i class="bi bi-box-arrow-right"></i> Déconnexion
+                </a>
+            </nav>
+        </div>
+
+        <!-- CONTENU -->
+        <div class="flex-grow-1" style="background:#f8f9fa;">
+            <!-- TOPBAR -->
+            <nav class="navbar navbar-light bg-white border-bottom shadow-sm">
+                <div class="container-fluid px-4">
+                    <span class="navbar-text">
+                        Connecté en tant que <strong>@User.Identity?.Name</strong> <span class="badge bg-primary">Admin</span>
+                    </span>
+                </div>
+            </nav>
+
+            <!-- ZONE DE CONTENU -->
+            <main class="p-4">
+                <!-- ALERTES SUCCESS -->
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        @TempData["Success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <!-- ALERTES ERROR -->
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        @TempData["Error"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <!-- CONTENU DE LA PAGE -->
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,122 @@
+﻿@model HotelBookingMVC.Models.Reservation
+@{
+    ViewData["Title"] = "Détails de la réservation";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom">
+                <div class="card-header text-center">
+                    <h3 class="mb-0">
+                        <i class="bi bi-file-text"></i> Détails de la réservation #@Model.Id
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+
+                    <!-- Statut -->
+                    <div class="text-center mb-4">
+                        @if (Model.Statut == "EnAttente")
+                        {
+                            <span class="badge bg-warning text-dark fs-5 px-4 py-3">
+                                <i class="bi bi-clock"></i> En attente de paiement
+                            </span>
+                        }
+                        else if (Model.Statut == "Payee")
+                        {
+                            <span class="badge bg-success fs-5 px-4 py-3">
+                                <i class="bi bi-check-circle"></i> Réservation confirmée et payée
+                            </span>
+                        }
+                        else if (Model.Statut == "Annulee")
+                        {
+                            <span class="badge bg-danger fs-5 px-4 py-3">
+                                <i class="bi bi-x-circle"></i> Réservation annulée
+                            </span>
+                        }
+                    </div>
+
+                    <!-- Infos hôtel -->
+                    <div class="mb-4">
+                        <h5 class="mb-3">
+                            <i class="bi bi-building"></i> Informations de l'hôtel
+                        </h5>
+                        <p class="mb-1"><strong>Nom :</strong> @Model.Hotel.Nom</p>
+                        <p class="mb-1"><strong>Adresse :</strong> @Model.Hotel.Adresse</p>
+                        <p class="mb-0"><strong>Ville :</strong> @Model.Hotel.Ville, @Model.Hotel.Pays</p>
+                    </div>
+
+                    <hr>
+
+                    <!-- Dates -->
+                    <div class="mb-4">
+                        <h5 class="mb-3">
+                            <i class="bi bi-calendar-event"></i> Dates du séjour
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-1"><strong>Arrivée :</strong></p>
+                                <p>@Model.DateDebut.ToString("dddd dd MMMM yyyy") à 15h00</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mb-1"><strong>Départ :</strong></p>
+                                <p>@Model.DateFin.ToString("dddd dd MMMM yyyy") à 11h00</p>
+                            </div>
+                        </div>
+                        <p class="mb-0">
+                            <i class="bi bi-moon"></i>
+                            <strong>Nombre de nuits :</strong> @((Model.DateFin - Model.DateDebut).Days)
+                        </p>
+                    </div>
+
+                    <hr>
+
+                    <!-- Chambres -->
+                    <div class="mb-4">
+                        <h5 class="mb-3">
+                            <i class="bi bi-door-open"></i> Chambre(s) réservée(s)
+                        </h5>
+                        @foreach (var ligne in Model.Lignes)
+                        {
+                            <div class="p-3 mb-2 rounded" style="background-color: var(--bg-light);">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <p class="mb-1"><strong>@ligne.Chambre.Type</strong></p>
+                                        <p class="text-muted mb-0">Chambre @ligne.Chambre.NumeroOuCode</p>
+                                    </div>
+                                    <div class="col-md-6 text-md-end">
+                                        <p class="mb-1">@ligne.PrixParNuit.ToString("C") × @ligne.NbNuits nuit(s)</p>
+                                        <p class="mb-0"><strong>@ligne.SousTotal.ToString("C")</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <hr>
+
+                    <!-- Total -->
+                    <div class="text-end mb-4">
+                        <h4 class="mb-0">
+                            <strong>Total :</strong>
+                            <span style="color: var(--secondary);">@Model.Total.ToString("C")</span>
+                        </h4>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-grid gap-2">
+                        @if (Model.Statut == "EnAttente")
+                        {
+                            <a href="#" class="btn btn-primary-custom btn-lg">
+                                <i class="bi bi-credit-card"></i> Procéder au paiement
+                            </a>
+                        }
+                        <a asp-action="MesReservations" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Retour à mes réservations
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

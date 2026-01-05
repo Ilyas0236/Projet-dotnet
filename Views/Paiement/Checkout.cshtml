@@ -1,0 +1,77 @@
+﻿@model HotelBookingMVC.Models.Reservation
+@{
+    ViewData["Title"] = "Paiement de la réservation";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom">
+                <div class="card-header text-center">
+                    <h3 class="mb-0">
+                        <i class="bi bi-credit-card"></i> Paiement de la réservation #@Model.Id
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+
+                    <div class="mb-4 p-3 rounded" style="background-color: var(--bg-light);">
+                        <h5 class="mb-2">
+                            <i class="bi bi-building"></i> @Model.Hotel.Nom
+                        </h5>
+                        <p class="text-muted mb-1">
+                            <i class="bi bi-geo-alt"></i> @Model.Hotel.Ville, @Model.Hotel.Pays
+                        </p>
+                        <p class="mb-0">
+                            <i class="bi bi-calendar-event"></i>
+                            Du @Model.DateDebut:dd/MM/yyyy au @Model.DateFin:dd/MM/yyyy
+                            (@((Model.DateFin - Model.DateDebut).Days) nuit(s))
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Détail des chambres</h5>
+                        <ul class="list-group">
+                            @foreach (var ligne in Model.Lignes)
+                            {
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>
+                                        @ligne.Chambre.Type (@ligne.Chambre.NumeroOuCode) -
+                                        @ligne.PrixParNuit.ToString("C") × @ligne.NbNuits nuit(s)
+                                    </span>
+                                    <strong>@ligne.SousTotal.ToString("C")</strong>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="text-end mb-4">
+                        <h4>
+                            Total à payer :
+                            <span style="color: var(--secondary);">@Model.Total.ToString("C")</span>
+                        </h4>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i>
+                        Ce paiement est <strong>simulé</strong> (aucune transaction réelle). Il sert pour les tests du projet.
+                    </div>
+
+                    <form asp-action="Confirmer" method="post">
+                        <input type="hidden" name="reservationId" value="@Model.Id" />
+                        @Html.AntiForgeryToken()
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary-custom btn-lg">
+                                <i class="bi bi-check-circle"></i> Confirmer le paiement simulé
+                            </button>
+                            <a asp-controller="Reservation" asp-action="MesReservations"
+                               class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Retour à mes réservations
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

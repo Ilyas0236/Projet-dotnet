@@ -1,0 +1,211 @@
+/* ========== PALETTE DE COULEURS ========== */
+:root {
+    --primary: #0F172A; /* Bleu nuit (navbar, boutons) */
+    --secondary: #F59E0B; /* Doré (accent, hover) */
+    --bg-light: #F8FAFC; /* Fond gris très clair */
+    --text-dark: #111827; /* Texte principal */
+    --text-gray: #6B7280; /* Texte secondaire */
+    --border: #E5E7EB; /* Bordures */
+    --success: #10B981; /* Vert succès */
+    --danger: #EF4444; /* Rouge erreur */
+}
+
+/* ========== GLOBAL ========== */
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* ========== NAVBAR ========== */
+.navbar-custom {
+    background: linear-gradient(135deg, var(--primary) 0%, #1e293b 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 1rem 0;
+}
+
+    .navbar-custom .navbar-brand {
+        color: white !important;
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .navbar-custom .nav-link {
+        color: rgba(255,255,255,0.9) !important;
+        font-weight: 500;
+        padding: 0.5rem 1rem !important;
+        transition: all 0.3s;
+        border-radius: 6px;
+    }
+
+        .navbar-custom .nav-link:hover {
+            background-color: var(--secondary);
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+    .navbar-custom .btn-outline-light {
+        border: 2px solid white;
+        font-weight: 600;
+        padding: 0.5rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.3s;
+    }
+
+        .navbar-custom .btn-outline-light:hover {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+/* ========== CARTES ========== */
+.card-custom {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: white;
+}
+
+    .card-custom:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .card-custom .card-header {
+        background: linear-gradient(135deg, var(--primary) 0%, #1e293b 100%);
+        color: white;
+        border-radius: 16px 16px 0 0 !important;
+        padding: 1.5rem;
+        border: none;
+    }
+
+/* ========== BOUTONS ========== */
+.btn-primary-custom {
+    background: linear-gradient(135deg, var(--primary) 0%, #1e293b 100%);
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(15,23,42,0.3);
+}
+
+    .btn-primary-custom:hover {
+        background: var(--secondary);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(245,158,11,0.4);
+    }
+
+.btn-secondary-custom {
+    background-color: var(--secondary);
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s;
+    color: white;
+}
+
+    .btn-secondary-custom:hover {
+        background-color: #d97706;
+        transform: translateY(-2px);
+    }
+
+/* ========== FORMULAIRES ========== */
+.form-control {
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s;
+}
+
+    .form-control:focus {
+        border-color: var(--secondary);
+        box-shadow: 0 0 0 3px rgba(245,158,11,0.1);
+    }
+
+.form-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+/* ========== ALERTES ========== */
+.alert {
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+}
+
+.alert-success {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.alert-danger {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
+
+/* ========== FOOTER ========== */
+.footer {
+    background: var(--primary);
+    color: white;
+    padding: 2rem 0;
+    margin-top: 4rem;
+    text-align: center;
+}
+
+/* ========== HERO SECTION ========== */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary) 0%, #1e293b 100%);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+    border-radius: 0 0 50px 50px;
+    margin-bottom: 3rem;
+}
+
+    .hero-section h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+    }
+
+    .hero-section p {
+        font-size: 1.25rem;
+        opacity: 0.9;
+    }
+
+/* ========== VALIDATION ERRORS ========== */
+.text-danger {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.input-validation-error {
+    border-color: var(--danger) !important;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .navbar-custom .navbar-brand {
+        font-size: 1.25rem;
+    }
+}
+
+

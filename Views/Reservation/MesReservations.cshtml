@@ -1,0 +1,122 @@
+﻿@model IEnumerable<HotelBookingMVC.Models.Reservation>
+@{
+    ViewData["Title"] = "Mes réservations";
+}
+
+<div class="container my-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>
+                <i class="bi bi-calendar-check"></i> Mes réservations
+            </h1>
+            <p class="text-muted">Gérez toutes vos réservations d'hôtels</p>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="card card-custom text-center p-5">
+            <i class="bi bi-calendar-x" style="font-size: 5rem; color: var(--text-gray);"></i>
+            <h3 class="mt-4">Aucune réservation</h3>
+            <p class="text-muted mb-4">Vous n'avez pas encore effectué de réservation</p>
+            <a asp-controller="Hotel" asp-action="Index" class="btn btn-primary-custom">
+                <i class="bi bi-search"></i> Rechercher un hôtel
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var reservation in Model)
+            {
+                <div class="col-12">
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-2 text-center">
+                                    @if (reservation.Statut == "EnAttente")
+                                    {
+                                        <span class="badge bg-warning text-dark fs-6 px-3 py-2">
+                                            <i class="bi bi-clock"></i> En attente
+                                        </span>
+                                    }
+                                    else if (reservation.Statut == "Payee")
+                                    {
+                                        <span class="badge bg-success fs-6 px-3 py-2">
+                                            <i class="bi bi-check-circle"></i> Payée
+                                        </span>
+                                    }
+                                    else if (reservation.Statut == "Annulee")
+                                    {
+                                        <span class="badge bg-danger fs-6 px-3 py-2">
+                                            <i class="bi bi-x-circle"></i> Annulée
+                                        </span>
+                                    }
+                                </div>
+
+                                <div class="col-md-5">
+                                    <h5 class="mb-2">
+                                        <i class="bi bi-building"></i> @reservation.Hotel.Nom
+                                    </h5>
+                                    <p class="text-muted mb-1">
+                                        <i class="bi bi-geo-alt"></i> @reservation.Hotel.Ville, @reservation.Hotel.Pays
+                                    </p>
+                                    <p class="text-muted mb-0">
+                                        <i class="bi bi-door-open"></i>
+                                        @foreach (var ligne in reservation.Lignes)
+                                        {
+                                            @ligne.Chambre.Type <text> (@ligne.Chambre.NumeroOuCode)</text>
+                                        }
+                                    </p>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <p class="mb-1">
+                                        <i class="bi bi-calendar-event"></i>
+                                        <strong>Du :</strong> @reservation.DateDebut.ToString("dd/MM/yyyy")
+                                    </p>
+                                    <p class="mb-1">
+                                        <i class="bi bi-calendar-event"></i>
+                                        <strong>Au :</strong> @reservation.DateFin.ToString("dd/MM/yyyy")
+                                    </p>
+                                    <p class="mb-0">
+                                        <i class="bi bi-moon"></i>
+                                        <strong>@((reservation.DateFin - reservation.DateDebut).Days) nuit(s)</strong>
+                                    </p>
+                                </div>
+
+                                <div class="col-md-2 text-center">
+                                    <h4 class="mb-3" style="color: var(--secondary);">
+                                        @reservation.Total.ToString("C")
+                                    </h4>
+                                    <a asp-action="Details" asp-route-id="@reservation.Id"
+                                       class="btn btn-sm btn-outline-primary mb-2 w-100">
+                                        <i class="bi bi-eye"></i> Détails
+                                    </a>
+                                    @if (reservation.Statut == "EnAttente")
+                                    {
+                                        <form asp-action="Annuler" asp-route-id="@reservation.Id" method="post"
+                                              onsubmit="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm btn-outline-danger w-100">
+                                                <i class="bi bi-x-circle"></i> Annuler
+                                            </button>
+                                        </form>
+                                    }
+                                    @if (reservation.Statut == "EnAttente")
+                                    {
+                                        <a asp-controller="Paiement" asp-action="Checkout" asp-route-reservationId="@reservation.Id"
+                                           class="btn btn-sm btn-primary-custom mb-2 w-100">
+                                            <i class="bi bi-credit-card"></i> Payer
+                                        </a>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

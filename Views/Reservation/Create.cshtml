@@ -1,0 +1,113 @@
+﻿@{
+    ViewData["Title"] = "Réserver une chambre";
+    var hotel = ViewBag.Hotel as HotelBookingMVC.Models.Hotel;
+    var chambre = ViewBag.Chambre as HotelBookingMVC.Models.Chambre;
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom">
+                <div class="card-header text-center">
+                    <h3 class="mb-0">
+                        <i class="bi bi-calendar-check"></i> Réserver une chambre
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+
+                    <!-- Infos hôtel et chambre -->
+                    <div class="mb-4 p-3 rounded" style="background-color: var(--bg-light);">
+                        <h5 class="mb-3">
+                            <i class="bi bi-building"></i> @hotel.Nom
+                        </h5>
+                        <p class="text-muted mb-2">
+                            <i class="bi bi-geo-alt"></i> @hotel.Ville, @hotel.Pays
+                        </p>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-1"><strong>Chambre :</strong> @chambre.Type</p>
+                                <p class="mb-1"><strong>Numéro :</strong> @chambre.NumeroOuCode</p>
+                                <p class="mb-0"><strong>Capacité :</strong> @chambre.Capacite personne(s)</p>
+                            </div>
+                            <div class="col-md-6 text-md-end">
+                                <h4 style="color: var(--secondary);">@chambre.PrixParNuit.ToString("C")</h4>
+                                <p class="text-muted mb-0">par nuit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulaire de réservation -->
+                    <form asp-action="Create" method="post">
+                        <input type="hidden" name="hotelId" value="@hotel.Id" />
+                        <input type="hidden" name="chambreId" value="@chambre.Id" />
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    <i class="bi bi-calendar-event"></i> Date d'arrivée
+                                </label>
+                                <input type="date" name="dateDebut" class="form-control"
+                                       min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    <i class="bi bi-calendar-event"></i> Date de départ
+                                </label>
+                                <input type="date" name="dateFin" class="form-control"
+                                       min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" required />
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i>
+                            <strong>À savoir :</strong>
+                            <ul class="mb-0 mt-2">
+                                <li>Check-in : 15h00</li>
+                                <li>Check-out : 11h00</li>
+                                <li>Le paiement sera demandé après la réservation</li>
+                            </ul>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary-custom btn-lg">
+                                <i class="bi bi-check-circle"></i> Confirmer la réservation
+                            </button>
+                            <a asp-controller="Hotel" asp-action="Details" asp-route-id="@hotel.Id"
+                               class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Retour à l'hôtel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Calculer automatiquement le nombre de nuits et le total
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateDebut = document.querySelector('input[name="dateDebut"]');
+            const dateFin = document.querySelector('input[name="dateFin"]');
+            const prixParNuit = @chambre.PrixParNuit;
+
+            function calculerTotal() {
+                if (dateDebut.value && dateFin.value) {
+                    const debut = new Date(dateDebut.value);
+                    const fin = new Date(dateFin.value);
+                    const nbNuits = Math.ceil((fin - debut) / (1000 * 60 * 60 * 24));
+
+                    if (nbNuits > 0) {
+                        const total = nbNuits * prixParNuit;
+                        console.log(`${nbNuits} nuit(s) = ${total.toFixed(2)} €`);
+                    }
+                }
+            }
+
+            dateDebut.addEventListener('change', calculerTotal);
+            dateFin.addEventListener('change', calculerTotal);
+        });
+    </script>
+}

@@ -1,0 +1,217 @@
+﻿@model List<Hotel>
+@{
+    ViewData["Title"] = "Accueil";
+}
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+    <div class="container">
+        <h1>
+            <i class="bi bi-geo-alt"></i>
+            Trouvez votre hôtel idéal
+        </h1>
+        <p class="lead mb-4">
+            Des milliers d'hôtels à travers le monde vous attendent
+        </p>
+
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a asp-controller="Hotel" asp-action="Index" class="btn btn-secondary-custom btn-lg">
+                <i class="bi bi-search"></i> Rechercher un hôtel
+            </a>
+        }
+        else
+        {
+            <a asp-controller="Auth" asp-action="Register" class="btn btn-secondary-custom btn-lg me-3">
+                <i class="bi bi-person-plus"></i> S'inscrire gratuitement
+            </a>
+            <a asp-controller="Auth" asp-action="Login" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-box-arrow-in-right"></i> Se connecter
+            </a>
+        }
+    </div>
+</section>
+
+<!-- LISTE DES HÔTELS EN VEDETTE -->
+<section class="container my-5">
+    <div class="row text-center mb-4">
+        <div class="col">
+            <h2 class="fw-bold">Nos hôtels en vedette</h2>
+            <p class="text-muted">Découvrez nos meilleures destinations</p>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-4">
+            @foreach (var hotel in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card card-custom h-100 shadow-sm">
+                        <!-- Image de l'hôtel -->
+                        <div style="height: 220px; overflow: hidden; background: #f0f0f0;">
+                            @if (!string.IsNullOrEmpty(hotel.ImagePrincipaleUrl))
+                            {
+                                <img src="@hotel.ImagePrincipaleUrl"
+                                     class="card-img-top"
+                                     alt="@hotel.Nom"
+                                     style="width: 100%; height: 100%; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <div class="d-flex align-items-center justify-content-center h-100">
+                                    <i class="bi bi-building" style="font-size: 4rem; color: #ccc;"></i>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="card-body">
+                            <!-- Nom de l'hôtel -->
+                            <h5 class="card-title mb-2">@hotel.Nom</h5>
+
+                            <!-- Étoiles -->
+                            <div class="mb-2">
+                                @for (int i = 0; i < hotel.NombreEtoiles; i++)
+                                {
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                }
+                                @for (int i = hotel.NombreEtoiles; i < 5; i++)
+                                {
+                                    <i class="bi bi-star text-muted"></i>
+                                }
+                        </div>
+
+                        <!-- Localisation -->
+                        <p class="text-muted mb-2">
+                            <i class="bi bi-geo-alt"></i> @hotel.Ville, @hotel.Pays
+                        </p>
+
+                        <!-- Description courte -->
+                        <p class="card-text small">
+                            @(hotel.Description.Length > 100
+                                                    ? hotel.Description.Substring(0, 100) + "..."
+                                                    : hotel.Description)
+                            </p>
+                        </div>
+
+                        <div class="card-footer bg-transparent border-0 p-3">
+                            <a asp-controller="Hotel" asp-action="Details" asp-route-id="@hotel.Id"
+                               class="btn btn-primary-custom w-100">
+                                <i class="bi bi-eye"></i> Voir détails
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Bouton "Voir tous les hôtels" -->
+        <div class="text-center mt-4">
+            <a asp-controller="Hotel" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                <i class="bi bi-search"></i> Voir tous les hôtels
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle"></i> Aucun hôtel disponible pour le moment.
+        </div>
+    }
+</section>
+
+<!-- FONCTIONNALITÉS -->
+<section class="container my-5">
+    <div class="row text-center mb-5">
+        <div class="col">
+            <h2 class="fw-bold">Pourquoi choisir Hotel Booking ?</h2>
+            <p class="text-muted">La meilleure plateforme de réservation en ligne</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card card-custom text-center h-100">
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-search" style="font-size: 3rem; color: var(--secondary);"></i>
+                    </div>
+                    <h4 class="card-title">Recherche facile</h4>
+                    <p class="card-text text-muted">
+                        Trouvez l'hôtel parfait en quelques clics grâce à nos filtres avancés
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-custom text-center h-100">
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-shield-check" style="font-size: 3rem; color: var(--secondary);"></i>
+                    </div>
+                    <h4 class="card-title">Paiement sécurisé</h4>
+                    <p class="card-text text-muted">
+                        Transactions 100% sécurisées avec confirmation instantanée
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-custom text-center h-100">
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-headset" style="font-size: 3rem; color: var(--secondary);"></i>
+                    </div>
+                    <h4 class="card-title">Support 24/7</h4>
+                    <p class="card-text text-muted">
+                        Notre équipe est disponible à tout moment pour vous aider
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATISTIQUES -->
+<section class="py-5" style="background: linear-gradient(135deg, var(--primary) 0%, #1e293b 100%);">
+    <div class="container">
+        <div class="row text-center text-white">
+            <div class="col-md-3 mb-4 mb-md-0">
+                <h2 class="fw-bold mb-0">500+</h2>
+                <p class="mb-0">Hôtels partenaires</p>
+            </div>
+            <div class="col-md-3 mb-4 mb-md-0">
+                <h2 class="fw-bold mb-0">10k+</h2>
+                <p class="mb-0">Réservations</p>
+            </div>
+            <div class="col-md-3 mb-4 mb-md-0">
+                <h2 class="fw-bold mb-0">50+</h2>
+                <p class="mb-0">Destinations</p>
+            </div>
+            <div class="col-md-3">
+                <h2 class="fw-bold mb-0">4.8/5</h2>
+                <p class="mb-0">Satisfaction client</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CALL TO ACTION -->
+@if (User.Identity?.IsAuthenticated != true)
+{
+    <section class="container my-5 text-center">
+        <div class="card card-custom">
+            <div class="card-body p-5">
+                <h2 class="mb-3">Prêt à réserver votre prochain séjour ?</h2>
+                <p class="text-muted mb-4">
+                    Inscrivez-vous gratuitement et profitez d'offres exclusives
+                </p>
+                <a asp-controller="Auth" asp-action="Register" class="btn btn-primary-custom btn-lg">
+                    <i class="bi bi-person-plus"></i> Créer un compte gratuitement
+                </a>
+            </div>
+        </div>
+    </section>
+}

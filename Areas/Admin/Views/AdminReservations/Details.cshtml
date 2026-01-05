@@ -1,0 +1,95 @@
+﻿@model HotelBookingMVC.Models.Reservation
+@{
+    ViewData["Title"] = "Détails réservation";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card card-custom mb-3">
+            <div class="card-header">
+                <h3 class="mb-0">Réservation #@Model.Id</h3>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Client</dt>
+                    <dd class="col-sm-9">
+                        @Model.Client.Prenom @Model.Client.Nom<br />
+                        <small class="text-muted">@Model.Client.Email</small>
+                    </dd>
+
+                    <dt class="col-sm-3">Hôtel</dt>
+                    <dd class="col-sm-9">@Model.Hotel.Nom<br /><small class="text-muted">@Model.Hotel.Ville, @Model.Hotel.Pays</small></dd>
+
+                    <dt class="col-sm-3">Dates</dt>
+                    <dd class="col-sm-9">
+                        Du @Model.DateDebut.ToString("dd/MM/yyyy") au @Model.DateFin.ToString("dd/MM/yyyy")
+                        <br /><small class="text-muted">@((Model.DateFin - Model.DateDebut).Days) nuit(s)</small>
+                    </dd>
+
+                    <dt class="col-sm-3">Statut</dt>
+                    <dd class="col-sm-9">
+                        @if (Model.Statut == "EnAttente")
+                        {
+                            <span class="badge bg-warning text-dark">En attente</span>
+                        }
+                        else if (Model.Statut == "Confirmee")
+                        {
+                            <span class="badge bg-info">Confirmée</span>
+                        }
+                        else if (Model.Statut == "Payee")
+                        {
+                            <span class="badge bg-success">Payée</span>
+                        }
+                        else if (Model.Statut == "Terminee")
+                        {
+                            <span class="badge bg-secondary">Terminée</span>
+                        }
+                        else if (Model.Statut == "Annulee")
+                        {
+                            <span class="badge bg-danger">Annulée</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">Date création</dt>
+                    <dd class="col-sm-9">@Model.DateCreation.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                    <dt class="col-sm-3">Total</dt>
+                    <dd class="col-sm-9"><strong class="text-success">@Model.Total.ToString("C")</strong></dd>
+                </dl>
+
+                <h5 class="mt-4">Chambres réservées</h5>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Chambre</th>
+                            <th>Type</th>
+                            <th>Prix/nuit</th>
+                            <th>Nb nuits</th>
+                            <th>Sous-total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ligne in Model.Lignes)
+                        {
+                            <tr>
+                                <td>@ligne.Chambre.NumeroOuCode</td>
+                                <td>@ligne.Chambre.Type</td>
+                                <td>@ligne.PrixParNuit.ToString("C")</td>
+                                <td>@ligne.NbNuits</td>
+                                <td>@ligne.SousTotal.ToString("C")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="mt-3">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                        <i class="bi bi-pencil"></i> Modifier
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

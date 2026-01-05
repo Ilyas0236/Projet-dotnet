@@ -1,0 +1,44 @@
+﻿@model HotelBookingMVC.Models.Hotel
+@{
+    ViewData["Title"] = "Supprimer l'hôtel";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card card-custom border-danger">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Confirmer la suppression</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    Voulez-vous vraiment supprimer cet hôtel ?
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-4">Nom</dt>
+                    <dd class="col-sm-8">@Model.Nom</dd>
+
+                    <dt class="col-sm-4">Ville</dt>
+                    <dd class="col-sm-8">@Model.Ville, @Model.Pays</dd>
+
+                    <dt class="col-sm-4">Adresse</dt>
+                    <dd class="col-sm-8">@Model.Adresse</dd>
+
+                    <dt class="col-sm-4">Chambres</dt>
+                    <dd class="col-sm-8">@Model.Chambres.Count chambre(s)</dd>
+                </dl>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Oui, supprimer
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

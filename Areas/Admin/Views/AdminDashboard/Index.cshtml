@@ -1,0 +1,77 @@
+﻿@model IEnumerable<HotelBookingMVC.Models.Reservation>
+@{
+    ViewData["Title"] = "Dashboard Admin";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="mb-4">Tableau de bord</h1>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card card-custom text-center">
+            <div class="card-body">
+                <h5 class="text-muted">Hôtels</h5>
+                <h2>@ViewBag.Stats.Hotels</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card card-custom text-center">
+            <div class="card-body">
+                <h5 class="text-muted">Chambres</h5>
+                <h2>@ViewBag.Stats.Chambres</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card card-custom text-center">
+            <div class="card-body">
+                <h5 class="text-muted">Clients</h5>
+                <h2>@ViewBag.Stats.Clients</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card card-custom text-center">
+            <div class="card-body">
+                <h5 class="text-muted">CA simulé</h5>
+                <h2>@ViewBag.Stats.TotalPaiements.ToString("C")</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="mb-3">Dernières réservations</h3>
+<div class="card card-custom">
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Client</th>
+                    <th>Hôtel</th>
+                    <th>Période</th>
+                    <th>Montant</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    <tr>
+                        <td>@r.Id</td>
+                        <td>@r.Client.Prenom @r.Client.Nom</td>
+                        <td>@r.Hotel.Nom</td>
+                        <td>@r.DateDebut.ToString("dd/MM/yyyy") - @r.DateFin.ToString("dd/MM/yyyy")</td>
+                        <td>@r.Total.ToString("C")</td>
+                        <td>
+                            <span class="badge bg-@(r.Statut == "Payee" ? "success" : r.Statut == "Annulee" ? "danger" : "warning")">
+                                @r.Statut
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

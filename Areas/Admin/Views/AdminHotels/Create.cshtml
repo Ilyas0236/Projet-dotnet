@@ -1,0 +1,81 @@
+﻿@model HotelBookingMVC.Models.Hotel
+@{
+    ViewData["Title"] = "Ajouter un hôtel";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card card-custom">
+            <div class="card-header">
+                <h3 class="mb-0"><i class="bi bi-plus-circle"></i> Ajouter un hôtel</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label asp-for="Nom" class="form-label"></label>
+                            <input asp-for="Nom" class="form-control" />
+                            <span asp-validation-for="Nom" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Ville" class="form-label"></label>
+                            <input asp-for="Ville" class="form-control" />
+                            <span asp-validation-for="Ville" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <label asp-for="Adresse" class="form-label"></label>
+                            <input asp-for="Adresse" class="form-control" />
+                            <span asp-validation-for="Adresse" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Pays" class="form-label"></label>
+                            <input asp-for="Pays" class="form-control" />
+                            <span asp-validation-for="Pays" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label"></label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <label asp-for="ImagePrincipaleUrl" class="form-label"></label>
+                            <input asp-for="ImagePrincipaleUrl" class="form-control" />
+                            <small class="text-muted">URL de l'image (ex: https://...)</small>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="NombreEtoiles" class="form-label"></label>
+                            <select asp-for="NombreEtoiles" class="form-select">
+                                <option value="1">1 étoile</option>
+                                <option value="2">2 étoiles</option>
+                                <option value="3" selected>3 étoiles</option>
+                                <option value="4">4 étoiles</option>
+                                <option value="5">5 étoiles</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Créer
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

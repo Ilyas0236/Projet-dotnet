@@ -1,0 +1,42 @@
+﻿@model HotelBookingMVC.Models.Facture
+@{
+    ViewData["Title"] = "Paiement réussi";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom text-center">
+                <div class="card-body p-5">
+                    <i class="bi bi-check-circle-fill" style="font-size: 4rem; color: var(--success);"></i>
+                    <h2 class="mt-3 mb-2">Paiement réussi !</h2>
+                    <p class="text-muted mb-4">
+                        Votre réservation à l'hôtel <strong>@Model.Reservation.Hotel.Nom</strong> est confirmée.
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Numéro de facture :</strong> @Model.NumeroFacture
+                    </p>
+                    <p class="mb-3">
+                        <strong>Montant :</strong> @Model.Reservation.Total.ToString("C")
+                    </p>
+
+                    <div class="d-grid gap-2 mb-3">
+                        <a asp-action="TelechargerFacture" asp-route-factureId="@Model.Id"
+                           class="btn btn-primary-custom btn-lg">
+                            <i class="bi bi-file-earmark-pdf"></i> Télécharger la facture PDF
+                        </a>
+                        <a asp-controller="Reservation" asp-action="MesReservations"
+                           class="btn btn-outline-secondary">
+                            <i class="bi bi-calendar-check"></i> Voir mes réservations
+                        </a>
+                    </div>
+
+                    <p class="text-muted mb-0">
+                        Un email de confirmation a été simulé pour ce projet.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+﻿@model HotelBookingMVC.Models.Reservation
+@{
+    ViewData["Title"] = "Modifier réservation";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card card-custom">
+            <div class="card-header">
+                <h3 class="mb-0"><i class="bi bi-pencil"></i> Modifier réservation #@Model.Id</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ClientId" />
+                    <input type="hidden" asp-for="HotelId" />
+                    <input type="hidden" asp-for="Total" />
+                    <input type="hidden" asp-for="DateCreation" />
+
+                    <div class="mb-3">
+                        <label class="form-label">Client</label>
+                        <input type="text" class="form-control" value="@Model.Client.Prenom @Model.Client.Nom" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Hôtel</label>
+                        <input type="text" class="form-control" value="@Model.Hotel.Nom" readonly />
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label asp-for="DateDebut" class="form-label"></label>
+                            <input asp-for="DateDebut" type="date" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="DateFin" class="form-label"></label>
+                            <input asp-for="DateFin" type="date" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Statut" class="form-label"></label>
+                        <select asp-for="Statut" asp-items="ViewBag.Statuts" class="form-select"></select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Total</label>
+                        <input type="text" class="form-control" value="@Model.Total.ToString("C")" readonly />
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Enregistrer
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

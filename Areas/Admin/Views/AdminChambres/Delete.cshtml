@@ -1,0 +1,60 @@
+﻿@model HotelBookingMVC.Models.Chambre
+@{
+    ViewData["Title"] = "Supprimer une chambre";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card card-custom border-danger">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Supprimer une chambre</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-circle"></i>
+                    Êtes-vous sûr de vouloir supprimer cette chambre ? Cette action est irréversible.
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-3">Hôtel</dt>
+                    <dd class="col-sm-9">@Model.Hotel.Nom</dd>
+
+                    <dt class="col-sm-3">Numéro / Code</dt>
+                    <dd class="col-sm-9">@Model.NumeroOuCode</dd>
+
+                    <dt class="col-sm-3">Type</dt>
+                    <dd class="col-sm-9">@Model.Type</dd>
+
+                    <dt class="col-sm-3">Capacité</dt>
+                    <dd class="col-sm-9">@Model.Capacite personnes</dd>
+
+                    <dt class="col-sm-3">Prix par nuit</dt>
+                    <dd class="col-sm-9">@Model.PrixParNuit.ToString("C")</dd>
+
+                    <dt class="col-sm-3">Active</dt>
+                    <dd class="col-sm-9">
+                        @if (Model.EstActive)
+                        {
+                            <span class="badge bg-success">Oui</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Non</span>
+                        }
+                    </dd>
+                </dl>
+
+                <form asp-action="Delete" asp-area="Admin" asp-controller="AdminChambres" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Confirmer la suppression
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

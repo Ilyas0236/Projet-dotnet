@@ -1,0 +1,53 @@
+﻿@model HotelBookingMVC.Models.Reservation
+@{
+    ViewData["Title"] = "Supprimer réservation";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card card-custom border-danger">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Supprimer réservation #@Model.Id</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-circle"></i>
+                    Êtes-vous sûr de vouloir supprimer cette réservation ? Cette action est irréversible.
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-3">Client</dt>
+                    <dd class="col-sm-9">@Model.Client.Prenom @Model.Client.Nom (@Model.Client.Email)</dd>
+
+                    <dt class="col-sm-3">Hôtel</dt>
+                    <dd class="col-sm-9">@Model.Hotel.Nom</dd>
+
+                    <dt class="col-sm-3">Dates</dt>
+                    <dd class="col-sm-9">@Model.DateDebut.ToString("dd/MM/yyyy") - @Model.DateFin.ToString("dd/MM/yyyy")</dd>
+
+                    <dt class="col-sm-3">Total</dt>
+                    <dd class="col-sm-9">@Model.Total.ToString("C")</dd>
+
+                    <dt class="col-sm-3">Chambres</dt>
+                    <dd class="col-sm-9">
+                        @foreach (var ligne in Model.Lignes)
+                        {
+                            <span class="badge bg-secondary me-1">@ligne.Chambre.NumeroOuCode</span>
+                        }
+                    </dd>
+                </dl>
+
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Confirmer la suppression
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

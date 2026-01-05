@@ -1,0 +1,95 @@
+﻿@model HotelBookingMVC.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Inscription";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card card-custom">
+                <div class="card-header text-center">
+                    <h3 class="mb-0">
+                        <i class="bi bi-person-plus"></i> Créer un compte
+                    </h3>
+                </div>
+                <div class="card-body p-5">
+
+                    <!-- Message d'erreur global -->
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <form asp-action="Register" method="post">
+
+                        <div class="row">
+                            <!-- Nom -->
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Nom" class="form-label">
+                                    <i class="bi bi-person"></i> Nom
+                                </label>
+                                <input asp-for="Nom" class="form-control" placeholder="ilyas" />
+                                <span asp-validation-for="Nom" class="text-danger"></span>
+                            </div>
+
+                            <!-- Prénom -->
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Prenom" class="form-label">
+                                    <i class="bi bi-person"></i> Prénom
+                                </label>
+                                <input asp-for="Prenom" class="form-control" placeholder="rachid" />
+                                <span asp-validation-for="Prenom" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">
+                                <i class="bi bi-envelope"></i> Email
+                            </label>
+                            <input asp-for="Email" class="form-control" placeholder="ilyas.rachid@email.com" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Mot de passe -->
+                        <div class="mb-3">
+                            <label asp-for="MotDePasse" class="form-label">
+                                <i class="bi bi-lock"></i> Mot de passe
+                            </label>
+                            <input asp-for="MotDePasse" class="form-control" placeholder="Minimum 6 caractères" />
+                            <span asp-validation-for="MotDePasse" class="text-danger"></span>
+                            <small class="text-muted">
+                                <i class="bi bi-info-circle"></i> Au moins 6 caractères
+                            </small>
+                        </div>
+
+                        <!-- Confirmer mot de passe -->
+                        <div class="mb-4">
+                            <label asp-for="ConfirmMotDePasse" class="form-label">
+                                <i class="bi bi-lock-fill"></i> Confirmer le mot de passe
+                            </label>
+                            <input asp-for="ConfirmMotDePasse" class="form-control" placeholder="Retapez votre mot de passe" />
+                            <span asp-validation-for="ConfirmMotDePasse" class="text-danger"></span>
+                        </div>
+
+                        <!-- Bouton submit -->
+                        <button type="submit" class="btn btn-primary-custom w-100 mb-3">
+                            <i class="bi bi-person-plus"></i> Créer mon compte
+                        </button>
+
+                        <!-- Lien vers connexion -->
+                        <div class="text-center">
+                            <p class="text-muted mb-0">
+                                Déjà un compte ?
+                                <a asp-action="Login" class="fw-bold text-decoration-none" style="color: var(--secondary);">
+                                    Se connecter
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

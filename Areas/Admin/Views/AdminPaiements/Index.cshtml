@@ -1,0 +1,111 @@
+﻿@model IEnumerable<HotelBookingMVC.Models.Paiement>
+@{
+    ViewData["Title"] = "Paiements";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="mb-4">Gestion des paiements</h1>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5>Total des paiements</h5>
+                <h2>@ViewBag.TotalPaiements.ToString("C")</h2>
+                <small>@ViewBag.NbPaiements paiement(s)</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3">
+    <div class="btn-group me-2" role="group">
+        <a class="btn @(string.IsNullOrEmpty(ViewBag.StatutFiltre) ? "btn-primary" : "btn-outline-primary")"
+           asp-action="Index">Tous</a>
+        <a class="btn @(ViewBag.StatutFiltre == "Succes" ? "btn-success" : "btn-outline-success")"
+           asp-action="Index" asp-route-statut="Succes">Succès</a>
+        <a class="btn @(ViewBag.StatutFiltre == "Echec" ? "btn-danger" : "btn-outline-danger")"
+           asp-action="Index" asp-route-statut="Echec">Échec</a>
+    </div>
+
+    <div class="btn-group" role="group">
+        <a class="btn @(ViewBag.ModeFiltre == "Simule" ? "btn-info" : "btn-outline-info")"
+           asp-action="Index" asp-route-mode="Simule">Simulé</a>
+        <a class="btn @(ViewBag.ModeFiltre == "Carte" ? "btn-info" : "btn-outline-info")"
+           asp-action="Index" asp-route-mode="Carte">Carte</a>
+        <a class="btn @(ViewBag.ModeFiltre == "PayPal" ? "btn-info" : "btn-outline-info")"
+           asp-action="Index" asp-route-mode="PayPal">PayPal</a>
+    </div>
+</div>
+
+<table class="table table-striped table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+            <th>#</th>
+            <th>Date paiement</th>
+            <th>Client</th>
+            <th>Hôtel</th>
+            <th>Réservation #</th>
+            <th>Montant</th>
+            <th>Mode</th>
+            <th>Statut</th>
+            <th>Référence</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Id</td>
+                <td>@p.DatePaiement.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@p.Reservation.Client.Prenom @p.Reservation.Client.Nom</td>
+                <td>@p.Reservation.Hotel.Nom</td>
+                <td>
+                    <a asp-controller="AdminReservations" asp-action="Details" asp-route-id="@p.ReservationId">
+                        #@p.ReservationId
+                    </a>
+                </td>
+                <td><strong>@p.Montant.ToString("C")</strong></td>
+                <td>
+                    @if (p.Mode == "Simule")
+                    {
+                        <span class="badge bg-info">Simulé</span>
+                    }
+                    else if (p.Mode == "Carte")
+                    {
+                        <span class="badge bg-primary">Carte</span>
+                    }
+                    else if (p.Mode == "PayPal")
+                    {
+                        <span class="badge bg-warning text-dark">PayPal</span>
+                    }
+                </td>
+                <td>
+                    @if (p.Statut == "Succes")
+                    {
+                        <span class="badge bg-success">Succès</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Échec</span>
+                    }
+                </td>
+                <td><small class="text-muted">@p.ReferenceTransaction</small></td>
+                <td class="text-end">
+                    <a class="btn btn-sm btn-outline-info"
+                       asp-action="Details" asp-route-id="@p.Id" title="Détails">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> Aucun paiement trouvé.
+    </div>
+}

@@ -1,0 +1,98 @@
+﻿@model IEnumerable<HotelBookingMVC.Models.Reservation>
+@{
+    ViewData["Title"] = "Réservations";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="mb-4">Gestion des réservations</h1>
+
+<div class="mb-3">
+    <div class="btn-group" role="group">
+        <a class="btn @(string.IsNullOrEmpty(ViewBag.StatutFiltre) ? "btn-primary" : "btn-outline-primary")"
+           asp-action="Index">Toutes</a>
+        <a class="btn @(ViewBag.StatutFiltre == "EnAttente" ? "btn-warning" : "btn-outline-warning")"
+           asp-action="Index" asp-route-statut="EnAttente">En attente</a>
+        <a class="btn @(ViewBag.StatutFiltre == "Confirmee" ? "btn-info" : "btn-outline-info")"
+           asp-action="Index" asp-route-statut="Confirmee">Confirmées</a>
+        <a class="btn @(ViewBag.StatutFiltre == "Payee" ? "btn-success" : "btn-outline-success")"
+           asp-action="Index" asp-route-statut="Payee">Payées</a>
+        <a class="btn @(ViewBag.StatutFiltre == "Terminee" ? "btn-secondary" : "btn-outline-secondary")"
+           asp-action="Index" asp-route-statut="Terminee">Terminées</a>
+        <a class="btn @(ViewBag.StatutFiltre == "Annulee" ? "btn-danger" : "btn-outline-danger")"
+           asp-action="Index" asp-route-statut="Annulee">Annulées</a>
+    </div>
+</div>
+
+<table class="table table-striped table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+            <th>#</th>
+            <th>Client</th>
+            <th>Hôtel</th>
+            <th>Dates</th>
+            <th>Montant</th>
+            <th>Statut</th>
+            <th>Date création</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.Id</td>
+                <td>@r.Client.Prenom @r.Client.Nom<br /><small class="text-muted">@r.Client.Email</small></td>
+                <td>@r.Hotel.Nom</td>
+                <td>
+                    @r.DateDebut.ToString("dd/MM/yyyy")<br />
+                    <small class="text-muted">au @r.DateFin.ToString("dd/MM/yyyy")</small>
+                </td>
+                <td>@r.Total.ToString("C")</td>
+                <td>
+                    @if (r.Statut == "EnAttente")
+                    {
+                        <span class="badge bg-warning text-dark">En attente</span>
+                    }
+                    else if (r.Statut == "Confirmee")
+                    {
+                        <span class="badge bg-info">Confirmée</span>
+                    }
+                    else if (r.Statut == "Payee")
+                    {
+                        <span class="badge bg-success">Payée</span>
+                    }
+                    else if (r.Statut == "Terminee")
+                    {
+                        <span class="badge bg-secondary">Terminée</span>
+                    }
+                    else if (r.Statut == "Annulee")
+                    {
+                        <span class="badge bg-danger">Annulée</span>
+                    }
+                </td>
+                <td>@r.DateCreation.ToString("dd/MM/yyyy HH:mm")</td>
+                <td class="text-end">
+                    <a class="btn btn-sm btn-outline-info"
+                       asp-action="Details" asp-route-id="@r.Id" title="Détails">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <a class="btn btn-sm btn-outline-secondary"
+                       asp-action="Edit" asp-route-id="@r.Id" title="Modifier">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a class="btn btn-sm btn-outline-danger"
+                       asp-action="Delete" asp-route-id="@r.Id" title="Supprimer">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> Aucune réservation trouvée.
+    </div>
+}

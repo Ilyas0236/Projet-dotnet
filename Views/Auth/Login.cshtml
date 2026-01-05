@@ -1,0 +1,73 @@
+﻿@model HotelBookingMVC.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Connexion";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card card-custom">
+                <div class="card-header text-center">
+                    <h3 class="mb-0">
+                        <i class="bi bi-box-arrow-in-right"></i> Connexion
+                    </h3>
+                </div>
+                <div class="card-body p-5">
+
+                    <!-- Message d'erreur global -->
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <form asp-action="Login" method="post">
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">
+                                <i class="bi bi-envelope"></i> Email
+                            </label>
+                            <input asp-for="Email" class="form-control" placeholder="votre@email.com" autofocus />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Mot de passe -->
+                        <div class="mb-3">
+                            <label asp-for="MotDePasse" class="form-label">
+                                <i class="bi bi-lock"></i> Mot de passe
+                            </label>
+                            <input asp-for="MotDePasse" class="form-control" placeholder="••••••••" />
+                            <span asp-validation-for="MotDePasse" class="text-danger"></span>
+                        </div>
+
+                        <!-- Se souvenir de moi -->
+                        <div class="mb-4 form-check">
+                            <input asp-for="SeSouvenir" class="form-check-input" />
+                            <label asp-for="SeSouvenir" class="form-check-label">
+                                Se souvenir de moi (30 jours)
+                            </label>
+                        </div>
+
+                        <!-- Bouton submit -->
+                        <button type="submit" class="btn btn-primary-custom w-100 mb-3">
+                            <i class="bi bi-box-arrow-in-right"></i> Se connecter
+                        </button>
+
+                        <!-- Lien vers inscription -->
+                        <div class="text-center">
+                            <p class="text-muted mb-0">
+                                Pas encore de compte ?
+                                <a asp-action="Register" class="fw-bold text-decoration-none" style="color: var(--secondary);">
+                                    S'inscrire gratuitement
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                     
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
